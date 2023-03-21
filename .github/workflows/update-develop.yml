@@ -16,7 +16,6 @@ jobs:
       - uses: pulumi/actions@v3
         with:
           cloud-url: s3://garunski-scry-pulumi-state-backend/dev?endpoint=nyc3.digitaloceanspaces.com
-          refresh: true
           command: up
           stack-name: develop
         env:
