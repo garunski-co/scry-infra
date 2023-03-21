@@ -1,4 +1,4 @@
-name: Pulumi
+name: Update Develop
 on:
   push:
     branches:
@@ -22,3 +22,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.DO_SPACES_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SPACES_SECRET_ACCESS_KEY }}
           DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+          AWS_REGION: 'us-east-1'
