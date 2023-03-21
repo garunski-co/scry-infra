@@ -1,0 +1,25 @@
+name: Pulumi
+on:
+  push:
+    branches:
+      - main
+jobs:
+  update:
+    name: Update
+    runs-on: ubuntu-latest
+    environment: develop
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.x
+      - uses: pulumi/actions@v3
+        with:
+          cloud-url: s3://garunski-scry-pulumi-state-backend/dev?endpoint=nyc3.digitaloceanspaces.com
+          refresh: true
+          command: up
+          stack-name: develop
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.DO_SPACES_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_SPACES_SECRET_ACCESS_KEY }}
+          DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}

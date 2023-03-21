@@ -1,56 +1,10 @@
-﻿using Pulumi;
-using Pulumi.Kubernetes.Types.Inputs.Core.V1;
-using Pulumi.Kubernetes.Types.Inputs.Apps.V1;
-using Pulumi.Kubernetes.Types.Inputs.Meta.V1;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Pulumi.DigitalOcean;
 
-return await Deployment.RunAsync(() =>
+return await Pulumi.Deployment.RunAsync(() =>
 {
-    var appLabels = new InputMap<string>
+    var domain = new Domain("scry-root", new()
     {
-        { "app", "nginx" }
-    };
-
-    var deployment = new Pulumi.Kubernetes.Apps.V1.Deployment("nginx", new DeploymentArgs
-    {
-        Spec = new DeploymentSpecArgs
-        {
-            Selector = new LabelSelectorArgs
-            {
-                MatchLabels = appLabels
-            },
-            Replicas = 1,
-            Template = new PodTemplateSpecArgs
-            {
-                Metadata = new ObjectMetaArgs
-                {
-                    Labels = appLabels
-                },
-                Spec = new PodSpecArgs
-                {
-                    Containers =
-                    {
-                        new ContainerArgs
-                        {
-                            Name = "nginx",
-                            Image = "nginx",
-                            Ports =
-                            {
-                                new ContainerPortArgs
-                                {
-                                    ContainerPortValue = 80
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        Name = "scryapp.website",
     });
-
-    // export the deployment name
-    return new Dictionary<string, object?>
-    {
-        ["name"] =  deployment.Metadata.Apply(m => m.Name)
-    };
 });
