@@ -9,11 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: develop
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-dotnet@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 3.1.x
-      - uses: pulumi/actions@v3
+          dotnet-version: 7.0.x
+      - uses: pulumi/actions@v4
         with:
           cloud-url: s3://garunski-scry-pulumi-state-backend/dev?endpoint=nyc3.digitaloceanspaces.com
           command: up
