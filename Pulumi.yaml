@@ -1,3 +1,6 @@
 name: scry-infra
 runtime: dotnet
-description: A minimal Kubernetes C# Pulumi program
+description: Scry Infrastructure
+backend: 
+  url: s3://garunski-scry-pulumi-state-backend/dev?endpoint=nyc3.digitaloceanspaces.com
+

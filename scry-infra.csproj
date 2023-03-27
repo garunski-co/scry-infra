@@ -4,6 +4,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <AssemblyName>Garunski.Scry.Infra</AssemblyName>
+    <RootNamespace>Garunski.Scry.Infra</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
