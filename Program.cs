@@ -7,4 +7,11 @@ return await Pulumi.Deployment.RunAsync(() =>
     {
         Name = "scryapp.website",
     });
+
+    var local = new DnsRecord("local", new()
+    {
+        Domain = domain.Id,
+        Type = "A",
+        Value = "127.0.0.1",
+    });
 });
