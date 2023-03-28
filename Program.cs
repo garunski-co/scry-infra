@@ -11,6 +11,7 @@ return await Pulumi.Deployment.RunAsync(() =>
     var local = new DnsRecord("local", new()
     {
         Domain = domain.Id,
+        Name = "local",
         Type = "A",
         Value = "127.0.0.1",
     });
