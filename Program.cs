@@ -15,4 +15,12 @@ return await Pulumi.Deployment.RunAsync(() =>
         Type = "A",
         Value = "127.0.0.1",
     });
+
+    var wildCardLocal = new DnsRecord("wildcardlocal", new()
+    {
+        Domain = domain.Id,
+        Name = "*.local",
+        Type = "A",
+        Value = "127.0.0.1",
+    });
 });
