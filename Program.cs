@@ -48,16 +48,16 @@ return await Deployment.RunAsync(() =>
         PrivateNetworkUuid = vpc.Id
     });
 
-    var dbFirewall = new DatabaseFirewall(stackName + "-db-firewall", new DatabaseFirewallArgs
-    {
-        ClusterId = dbCluster.Id,
-        Rules = new InputList<DatabaseFirewallRuleArgs>
-        {
-            new DatabaseFirewallRuleArgs
-            {
-                Type = "vpc",
-                Value = vpc.Id
-            }
-        }
-    });
+    // var dbFirewall = new DatabaseFirewall(stackName + "-db-firewall", new DatabaseFirewallArgs
+    // {
+    //     ClusterId = dbCluster.Id,
+    //     Rules = new InputList<DatabaseFirewallRuleArgs>
+    //     {
+    //         new DatabaseFirewallRuleArgs
+    //         {
+    //             Type = "vpc",
+    //             Value = vpc.Id
+    //         }
+    //     }
+    // });
 });
