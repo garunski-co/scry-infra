@@ -44,6 +44,7 @@ return await Deployment.RunAsync(() =>
         Region = "nyc1",
         Size = "db-s-1vcpu-1gb",
         Version = "15",
+        NodeCount = 1,
         PrivateNetworkUuid = vpc.Id
     });
 
