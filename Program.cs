@@ -9,6 +9,8 @@ return await Deployment.RunAsync(() =>
 
     var stackName = Deployment.Instance.StackName;
 
+    var defaultRegion = Region.NYC1;
+
     var domain = new Domain("scry-root", new()
     {
         Name = "scryapp.website"
@@ -33,7 +35,7 @@ return await Deployment.RunAsync(() =>
     var vpc = new Vpc("vpc", new VpcArgs
     {
         Name = stackName + "-vpc",
-        Region = "nyc1",
+        Region = defaultRegion.ToString(),
         IpRange = "10.0.0.0/16"
     });
 
@@ -41,23 +43,35 @@ return await Deployment.RunAsync(() =>
     {
         Name = stackName + "-pg-cluster",
         Engine = "pg",
-        Region = "nyc1",
-        Size = "db-s-1vcpu-1gb",
+        Region = Region.NYC1,
+        Size = DatabaseSlug.DB_1VPCU1GB,
         Version = "15",
         NodeCount = 1,
         PrivateNetworkUuid = vpc.Id
     });
+    
+    var k8sCluster = new KubernetesCluster(stackName + "-k8s-cluster", new KubernetesClusterArgs
+    {
+        Region = defaultRegion,
+        Version = "1.26.3-do.0",
+        NodePool = new KubernetesClusterNodePoolArgs
+        {
+            Name = stackName + "-k8s-" + DropletSlug.DropletS2VCPU4GB,
+            Size = DropletSlug.DropletS2VCPU4GB.ToString(), 	//s-2vcpu-4gb
+            NodeCount = 1,
+        },
+    });
 
-    // var dbFirewall = new DatabaseFirewall(stackName + "-db-firewall", new DatabaseFirewallArgs
-    // {
-    //     ClusterId = dbCluster.Id,
-    //     Rules = new InputList<DatabaseFirewallRuleArgs>
-    //     {
-    //         new DatabaseFirewallRuleArgs
-    //         {
-    //             Type = "vpc",
-    //             Value = vpc.Id
-    //         }
-    //     }
-    // });
+    var dbFirewall = new DatabaseFirewall(stackName + "-db-firewall", new DatabaseFirewallArgs
+    {
+        ClusterId = dbCluster.Id,
+        Rules = new InputList<DatabaseFirewallRuleArgs>
+        {
+            new DatabaseFirewallRuleArgs
+            {
+                Type = "k8s",
+                Value = k8sCluster.Id
+            }
+        }
+    });
 });
